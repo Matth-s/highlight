@@ -34,8 +34,14 @@ export const signupAction = async (data: signupType) => {
     await signIn('credentials', {
       email,
       password,
+      redirect: true,
+      redirectTo: '/',
     });
   } catch (err) {
+    if (err instanceof Error) {
+      if (err.message === 'NEXT_REDIRECT') throw err;
+    }
+
     throw new Error('Une erreur est survenue');
   }
 };
